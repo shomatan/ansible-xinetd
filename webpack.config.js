@@ -27,6 +27,10 @@ module.exports = {
         test: /\.(jpg|png)$/,
         loaders: 'url-loader'
       },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader" },
+      { test: /\.(woff|woff2)$/, loader:"url-loader?prefix=font/&limit=5000" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml" }
     ]
   },
   resolve: {
@@ -35,7 +39,8 @@ module.exports = {
       'node_modules'
     ],
     alias: {
-      vue: 'vue/dist/vue.esm.js'
+      vue: 'vue/dist/vue.esm.js',
+      va: 'vue2-admin-lte/src'
     }
   },
   devServer: {
