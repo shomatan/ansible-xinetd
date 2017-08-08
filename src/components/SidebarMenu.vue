@@ -70,12 +70,11 @@
       </router-link>
     </li>
 
-    <li class="header">PAGES</li>
+    <li class="header">Account</li>
     <li class="pageLink" v-on:click="toggleMenu">
-      <router-link to="/login">
-        <i class="fa fa-circle-o text-yellow"></i>
-        <span class="page"> Login</span>
-      </router-link>
+      <a href="" v-on:click="logout">
+        <i class="fa fa-circle-o text-red"></i> Logout
+      </a>
     </li>
     <li class="pageLink" v-on:click="toggleMenu">
       <router-link to="/404"><i class="fa fa-circle-o text-red"></i>
@@ -85,22 +84,30 @@
   </ul>
 </template>
 <script>
-export default {
-  name: 'SidebarName',
-  methods: {
-    toggleMenu (event) {
-      // remove active from li
-      var active = document.querySelector('li.pageLink.active')
+  import * as types from '../store/types'
 
-      if (active) {
-        active.classList.remove('active')
+  export default {
+    name: 'SidebarName',
+    methods: {
+      toggleMenu (event) {
+        // remove active from li
+        var active = document.querySelector('li.pageLink.active')
+
+        if (active) {
+          active.classList.remove('active')
+        }
+        // window.$('li.pageLink.active').removeClass('active')
+        // Add it to the item that was clicked
+        event.toElement.parentElement.className = 'pageLink active'
+      },
+      logout () {
+        this.$store.commit(types.LOGOUT)
+        this.$router.push({
+          path: '/login'
+        })
       }
-      // window.$('li.pageLink.active').removeClass('active')
-      // Add it to the item that was clicked
-      event.toElement.parentElement.className = 'pageLink active'
     }
   }
-}
 </script>
 <style>
   /* override default */

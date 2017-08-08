@@ -14,14 +14,6 @@
       return {
         section: 'Head'
       }
-    },
-    methods: {
-      logout () {
-        this.$store.commit(types.LOGOUT)
-        this.$router.push({
-          path: '/'
-        })
-      }
     }
   }
 </script>
