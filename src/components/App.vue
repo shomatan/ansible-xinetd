@@ -5,6 +5,9 @@
 </template>
 
 <script>
+  import * as types from '../store/types'
+  import {mapState} from 'vuex'
+
   export default {
     name: 'App',
     data () {
@@ -14,15 +17,10 @@
     },
     methods: {
       logout () {
-        this.$store.commit('SET_USER', null)
-        this.$store.commit('SET_TOKEN', null)
-
-        if (window.localStorage) {
-          window.localStorage.setItem('user', null)
-          window.localStorage.setItem('token', null)
-        }
-
-        this.$router.push('/login')
+        this.$store.commit(types.LOGOUT)
+        this.$router.push({
+          path: '/'
+        })
       }
     }
   }

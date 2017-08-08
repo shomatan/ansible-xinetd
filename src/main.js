@@ -1,10 +1,10 @@
 // Import System requirements
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import axios from './http'
 
 import { sync } from 'vuex-router-sync'
-import routes from './routes.js'
-import store from './store'
+import router from './router'
+import store from './store/store'
 
 // Import Views - Top level
 import App from './components/App.vue'
@@ -14,21 +14,14 @@ import 'va/lib/script'
 
 Vue.config.productionTip = false
 
-Vue.use(VueRouter)
-
-// Routing logic
-var router = new VueRouter({
-  routes: routes,
-  mode: 'history',
-  scrollBehavior: function (to, from, savedPosition) {
-    return savedPosition || { x: 0, y: 0 }
-  }
-})
+Vue.prototype.axios = axios
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  axios,
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

@@ -4,11 +4,11 @@
         <div class="container">
           <div class="text-center col-md-4 col-sm-offset-4">
             <!-- login form -->
-            <form class="ui form loginForm"  @submit.prevent="checkCreds">
+            <form class="ui form loginForm"  @submit.prevent="login">
 
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                <input class="form-control" name="username" placeholder="Username" type="text" v-model="username">
+                <input class="form-control" name="email" placeholder="email" type="text" v-model="email">
               </div>
 
               <div class="input-group">
@@ -26,79 +26,42 @@
   </div>
 </template>
 
-<script>
-import api from '../api'
-
-export default {
-  name: 'Login',
-  data (router) {
-    return {
-      section: 'Login',
-      loading: '',
-      username: '',
-      password: '',
-      response: ''
-    }
-  },
-  methods: {
-    checkCreds () {
-      const {username, password} = this
-
-      this.toggleLoading()
-      this.resetResponse()
-      this.$store.commit('TOGGLE_LOADING')
-
-      /* Making API call to authenticate a user */
-      api.request('post', '/auth/signIn', {username, password})
-      .then(response => {
-        this.toggleLoading()
-
-        var data = response.data
-        /* Checking if error object was returned from the server */
-        if (data.error) {
-          var errorName = data.error.name
-          if (errorName) {
-            this.response = errorName === 'InvalidCredentialsError'
-            ? 'Username/Password incorrect. Please try again.'
-            : errorName
-          } else {
-            this.response = data.error
-          }
-
-          return
-        }
-
-        /* Setting user in the state and caching record to the localStorage */
-        if (data.user) {
-          var token = 'Bearer ' + data.token
-
-          this.$store.commit('SET_USER', data.user)
-          this.$store.commit('SET_TOKEN', token)
-
-          if (window.localStorage) {
-            window.localStorage.setItem('user', JSON.stringify(data.user))
-            window.localStorage.setItem('token', token)
-          }
-
-          this.$router.push(data.redirect)
-        }
-      })
-      .catch(error => {
-        this.$store.commit('TOGGLE_LOADING')
-        console.log(error)
-
-        this.response = 'Server appears to be offline'
-        this.toggleLoading()
-      })
+<script type="application/ecmascript">
+  import * as types from '../store/types'
+  export default {
+    name: 'Login',
+    data () {
+      return {
+        section: 'Login',
+        loading: '',
+        email: '',
+        password: '',
+        response: ''
+      }
     },
-    toggleLoading () {
-      this.loading = (this.loading === '') ? 'loading' : ''
+    mounted(){
+      this.$store.commit(types.TITLE, 'Login')
     },
-    resetResponse () {
-      this.response = ''
+    methods: {
+      login(){
+        const {email, password} = this
+
+        this.axios.post('/auth/signIn', { email, password, rememberMe: false }).then(response => {
+          this.$store.commit(types.LOGIN, response.data.token)
+          let redirect = decodeURIComponent(this.$route.query.redirect || '/')
+          this.$router.push({
+            path: redirect
+          })
+        })
+        .catch(error => {
+            let redirect = decodeURIComponent(this.$route.query.redirect || '/')
+            this.$router.push({
+              path: redirect
+            })
+        })
+      }
     }
   }
-}
 </script>
 
 <style>
