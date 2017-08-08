@@ -54,10 +54,11 @@
           })
         })
         .catch(error => {
-            let redirect = decodeURIComponent(this.$route.query.redirect || '/')
-            this.$router.push({
-              path: redirect
-            })
+          this.response = error.message
+          let redirect = decodeURIComponent(this.$route.query.redirect || '/')
+          this.$router.push({
+            path: redirect
+          })
         })
       }
     }
