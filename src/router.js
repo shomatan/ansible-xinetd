@@ -9,7 +9,8 @@ import NotFoundView from './components/404.vue'
 
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
-import PostsView from './components/views/Posts.vue'
+import PostListView from './components/views/posts/List.vue'
+import PostEditView from './components/views/posts/Edit.vue'
 
 Vue.use(VueRouter)
 
@@ -26,16 +27,18 @@ const routes = [
     },
     children: [
       {
-        path: 'dashboard',
+        path: '/dashboard',
         alias: '',
         component: DashboardView,
-        name: 'Dashboard',
         meta: {description: 'Overview of environment'}
       }, {
-        path: 'posts',
-        component: PostsView,
-        name: 'Posts',
-        meta: {description: 'Simple and advance table in CoPilot'}
+        path: '/posts',
+        component: PostListView,
+        meta: { description: 'Show post list' }
+      }, {
+        path: '/posts/:id',
+        component: PostEditView,
+        meta: { description: 'Edit post' }
       }
     ]
   }, {
@@ -52,7 +55,9 @@ if (window.localStorage.getItem('token')) {
 const router = new VueRouter({
   routes: routes,
   mode: 'history',
-
+  scrollBehavior: function (to, from, savedPosition) {
+    return savedPosition || { x: 0, y: 0 }
+  }
 })
 
 router.beforeEach((to, from, next) => {

@@ -33,7 +33,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr class="even" role="row" v-if="response" v-for="p in response">
+                          <tr class="even" role="row" v-if="response" v-for="p in response" v-on:click="editPost(p)" >
                             <td class="sorting_1">{{ p.id }}</td>
                             <td>{{ p.title }}</td>
                           </tr>
@@ -84,6 +84,11 @@
             // Request failed.
             console.log('error', error.response)
             this.error = error.response.statusText
+          })
+      },
+      editPost(post) {
+        this.$router.push({
+            path: '/posts/' + post.id
           })
       }
     },
