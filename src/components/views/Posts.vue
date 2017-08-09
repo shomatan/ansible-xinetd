@@ -19,107 +19,33 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
-                      <thead>
-                        <tr role="row">
-                          <th aria-label="Rendering engine: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Rendering engine</th>
-                          <th aria-label="Browser: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Browser</th>
-                          <th aria-label="Platform(s): activate to sort column ascending" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Platform(s)</th>
-                          <th aria-label="Engine version: activate to sort column ascending" style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Engine version</th>
-                          <th aria-label="CSS grade: activate to sort column ascending" style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">CSS grade</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="even" role="row">
-                          <td class="sorting_1">Blink</td>
-                          <td>Iridium  54.0</td>
-                          <td>GNU/Linux</td>
-                          <td>54</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="odd" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Firefox 1.0</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="even" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Firefox 1.5</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="odd" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Firefox 2.0</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="even" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Firefox 3.0</td>
-                          <td>Win 2k+ / OSX.3+</td>
-                          <td>1.9</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="odd" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Camino 1.0</td>
-                          <td>OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="even" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Camino 1.5</td>
-                          <td>OSX.3+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="odd" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Netscape 7.2</td>
-                          <td>Win 95+ / Mac OS 8.6-9.2</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="even" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Netscape Browser 8</td>
-                          <td>Win 98SE+</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="odd" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Netscape Navigator 9</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr class="even" role="row">
-                          <td class="sorting_1">Gecko</td>
-                          <td>Mozilla 1.0</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1</td>
-                          <td>A</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="1" rowspan="1">Rendering engine</th>
-                          <th colspan="1" rowspan="1">Browser</th>
-                          <th colspan="1" rowspan="1">Platform(s)</th>
-                          <th colspan="1" rowspan="1">Engine version</th>
-                          <th colspan="1" rowspan="1">CSS grade</th>
-                        </tr>
-                      </tfoot>
-                    </table>
+                <div v-if="error">
+                  Found an error
+                </div>
+                <div v-else>
+                  <div class="row">
+                    <div class="col-sm-12 table-responsive">
+                      <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
+                        <thead>
+                          <tr role="row">
+                            <th aria-label="ID engine: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
+                            <th aria-label="Title: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Title</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="even" role="row" v-if="response" v-for="p in response">
+                            <td class="sorting_1">{{ p.id }}</td>
+                            <td>{{ p.title }}</td>
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th colspan="1" rowspan="1">ID</th>
+                            <th colspan="1" rowspan="1">Title</th>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -133,17 +59,36 @@
 </template>
 
 <script>
-import $ from 'jquery'
-// Require needed datatables modules
-import 'datatables.net'
-import 'datatables.net-bs'
 
-export default {
-  name: 'Tables',
-  mounted () {
-    this.$nextTick(() => {
-      $('#example1').DataTable()
-    })
+  export default {
+    name: 'Tables',
+    data () {
+      return {
+        response: null,
+        error: null
+      }
+    },
+    methods: {
+      getPosts () {
+        this.axios.get('/posts')
+          .then(response => {
+            
+            if (response.status !== 200) {
+              this.error = response.statusText
+              return
+            }
+
+            this.response = response.data
+          })
+          .catch(error => {
+            // Request failed.
+            console.log('error', error.response)
+            this.error = error.response.statusText
+          })
+      }
+    },
+    mounted () {
+      this.getPosts()
+    }
   }
-}
 </script>
