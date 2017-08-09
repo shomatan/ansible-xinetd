@@ -64,21 +64,22 @@
     },
     methods: {
       getPosts () {
-        this.axios.get('/posts')
-          .then(response => {
+        this.$Progress.start()
+        this.axios.get('/posts').then( response => {
             
-            if (response.status !== 200) {
-              this.error = response.statusText
-              return
-            }
+          if (response.status !== 200) {
+            this.error = response.statusText
+            return
+          }
 
-            this.response = response.data
-          })
-          .catch(error => {
-            // Request failed.
-            console.log('error', error.response)
-            this.error = error.response.statusText
-          })
+          this.response = response.data
+        })
+        .catch(error => {
+          // Request failed.
+          console.log('error', error.response)
+          this.error = error.response.statusText
+        })
+        this.$Progress.finish()
       },
       editPost(post) {
         this.$router.push({

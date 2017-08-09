@@ -52,36 +52,42 @@ export default {
       vueModel = ''
     },
     getPost () {
-      this.axios.get('/posts/' + this.$route.params.id)
-        .then(response => {
+      this.$Progress.start()
+      this.axios.get('/posts/' + this.$route.params.id).then( response => {
         
         if (response.status !== 200) {
-            this.error = response.statusText
-            return
+          this.$Progress.fail()
+          this.error = response.statusText
+          return
         }
 
         this.post = response.data
       })
       .catch(error => {
         // Request failed.
+        this.$Progress.fail()
         console.log('error', error.response)
         this.error = error.response.statusText
       })
+      this.$Progress.finish()
     },
     updatePost() {
-      this.axios.post('/posts', this.post)
-        .then(response => {
+      this.$Progress.start()
+      this.axios.post('/posts', this.post).then(response => {
         
         if (response.status !== 200) {
-            this.error = response.statusText
-            return
+          this.$Progress.fail()
+          this.error = response.statusText
+          return
         }
       })
       .catch(error => {
         // Request failed.
         console.log('error', error.response)
+        this.$Progress.fail()
         this.error = error.response.statusText
       })
+      this.$Progress.finish()
     }
   },
   mounted () {
