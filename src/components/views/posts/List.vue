@@ -38,12 +38,6 @@
                             <td>{{ p.title }}</td>
                           </tr>
                         </tbody>
-                        <tfoot>
-                          <tr>
-                            <th colspan="1" rowspan="1">ID</th>
-                            <th colspan="1" rowspan="1">Title</th>
-                          </tr>
-                        </tfoot>
                       </table>
                     </div>
                   </div>
