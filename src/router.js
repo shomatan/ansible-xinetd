@@ -11,6 +11,7 @@ import NotFoundView from './components/404.vue'
 import DashboardView from './components/views/Dashboard.vue'
 import PostListView from './components/views/posts/List.vue'
 import PostEditView from './components/views/posts/Edit.vue'
+import PostCreateView from './components/views/posts/Create.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,10 @@ const routes = [
         path: '/posts',
         component: PostListView,
         meta: { description: 'Show post list' }
+      }, {
+        path: '/posts/create',
+        component: PostCreateView,
+        meta: { description: 'Create post' }
       }, {
         path: '/posts/:id',
         component: PostEditView,

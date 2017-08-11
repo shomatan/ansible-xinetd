@@ -3,7 +3,7 @@
   <section class="content">
     <div class="row">
       <h1 class="col-md-4">Posts</h1>
-      <button class="col-md-2" type="button">New Post</button>
+      <button class="col-md-2 btn btn-primary" type="button" v-on:click="createPost()">New Post</button>
       <div class="col-md-5 col-md-offset-1">
         <!-- search form (Optional) -->
         <form v-on:submit.prevent class="sidebar-form">
@@ -106,8 +106,13 @@
       },
       editPost(post) {
         this.$router.push({
-            path: '/posts/' + post.id
-          })
+          path: '/posts/' + post.id
+        })
+      },
+      createPost() {
+        this.$router.push({
+          path: '/posts/create'
+        })
       }
     },
     mounted () {
