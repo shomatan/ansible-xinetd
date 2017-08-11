@@ -16,13 +16,13 @@
 
               <h4>Title</h4>
               <div class="input-group col-sm-12">
-                <input class="form-control" type="text" placeholder="Title" v-model="title">
+                <input class="form-control" type="text" placeholder="Title" v-model="post.title">
               </div>
               <br>
 
               <h4>Content</h4>
               <div class="input-group col-sm-12">
-                <textarea class="form-control" rows="5" v-model="content"></textarea>
+                <textarea class="form-control" rows="5" v-model="post.content"></textarea>
               </div>
               <br>
               <button type="button" class="btn btn-default btn-lg" v-on:click="createPost()">Create</button>
@@ -45,7 +45,7 @@
                 </thead>
                 <tbody>
                   <tr class="even" role="row" v-if="categories" v-for="p in categories">
-                    <td><input type="checkbox" v-bind:value="{ name: p.name }" v-model="postCategories"></td>
+                    <td><input type="checkbox" v-bind:value="{ name: p.name }" v-model="post.categories"></td>
                     <td>{{ p.name }}</td>
                   </tr>
                 </tbody>
@@ -69,15 +69,15 @@
                 </thead>
                 <tbody>
                   <tr class="even" role="row" v-if="tags" v-for="p in tags">
-                    <td><input type="checkbox" v-bind:value="p" v-model="postTags"></td>
+                    <td><input type="checkbox" v-bind:value="p" v-model="post.tags"></td>
                     <td>{{ p.name }}</td>
                   </tr>
                 </tbody>
               </table>
-
             </div> <!-- /.box-body -->
           </div>
-        </div>
+        </div><!-- /.col-md-2 -->
+
       </div><!-- /.row -->
     </section>
   </div>
@@ -89,12 +89,16 @@ export default {
   name: 'Settings',
   data () {
     return {
-      title: null,
-      content: null,
+      post: {
+        id: 0,
+        title: null,
+        content: null,
+        categories: [],
+        tags: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
       categories: null,
       tags: null,
-      postCategories: [],
-      postTags: [],
       error: null
     }
   },
@@ -144,17 +148,8 @@ export default {
     },
     createPost() {
       this.$Progress.start()
-      var post = {
-        id: 0,
-        title: this.title,
-        content: this.content,
-        categories: this.postCategories,
-        tags: this.postTags,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
 
-      this.axios.post('/posts', post).then(response => {
+      this.axios.post('/posts', this.post).then(response => {
 
         if (response.status !== 200) {
           this.$Progress.fail()
