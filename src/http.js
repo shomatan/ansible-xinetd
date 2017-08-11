@@ -19,22 +19,23 @@ axios.interceptors.request.use(
     })
 
 axios.interceptors.response.use(
-    response => {
-        return response;
-    },
-    error => {
-        if (error.response) {
-            switch (error.response.status) {
-                case 401:
-                    store.commit(types.LOGOUT)
-                    router.replace({
-                        path: 'login',
-                        query: {redirect: router.currentRoute.fullPath}
-                    })
-            }
-        }
-        // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
-        return Promise.reject(error.response.data)
-    })
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          store.commit(types.LOGOUT)
+          router.replace({
+              path: 'login',
+              query: {redirect: router.currentRoute.fullPath}
+          })
+      }
+    }
+    // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
+    return Promise.reject(error)
+  }
+)
 
 export default axios
