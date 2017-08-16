@@ -1,12 +1,12 @@
-import axios from 'axios'
+import http from 'axios'
 import store from '../stores'
 import router from '../router'
 import config from '../config'
 
-axios.defaults.timeout = 5000
-axios.defaults.baseURL = config.serverURI
+http.defaults.timeout = 5000
+http.defaults.baseURL = config.serverURI
 
-axios.interceptors.request.use(
+http.interceptors.request.use(
   config => {
     if (store.state.token) {
       config.headers['X-Auth-Token'] = `${store.state.token}`
@@ -17,7 +17,7 @@ axios.interceptors.request.use(
     return Promise.reject(err)
   })
 
-axios.interceptors.response.use(
+http.interceptors.response.use(
   response => {
     return response
   },
@@ -36,5 +36,3 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-
-export default axios

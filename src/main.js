@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './components/App'
 import router from './router'
 import store from './stores'
+import http from './services'
 
 // css
 import 'bulma/css/bulma.css'
@@ -14,6 +15,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  http,
   store,
   template: '<App/>',
   components: { App }
