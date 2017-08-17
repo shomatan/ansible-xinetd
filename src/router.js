@@ -8,6 +8,8 @@ import LoginView from './components/Login.vue'
 import NotFoundView from './components/404.vue'
 
 import PostListView from './components/views/posts/List.vue'
+import PostCreateView from './components/views/posts/Create.vue'
+
 Vue.use(Router)
 
 const routes = [
@@ -27,6 +29,10 @@ const routes = [
         path: '/posts',
         component: PostListView,
         meta: { description: 'Show post list' }
+      }, {
+        path: '/posts/create',
+        component: PostCreateView,
+        meta: { description: 'Create new post' }
       }
     ]
   }, {
