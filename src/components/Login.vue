@@ -1,41 +1,78 @@
 <template>
-  <div class="container container-table">
-      <div class="row vertical-10p">
-        <div class="container">
-          <div class="text-center col-md-4 col-sm-offset-4">
-            <!-- login form -->
-            <form class="ui form loginForm"  @submit.prevent="login">
-
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                <input class="form-control" name="email" placeholder="email" type="text" v-model="email">
-              </div>
-
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                <input class="form-control" name="password" placeholder="Password" type="password" v-model="password">
-              </div>
-              <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Submit</button>
-            </form>
+  <div>
+    <section class="hero is-fullheight is-bold">
+      <div class="container">
+        <div class="columns is-vcentered">
+          <div class="column is-4 is-offset-4">
 
             <!-- errors -->
-            <div v-if=response class="text-red"><p>{{response}}</p></div>
+            <p class="help is-danger" v-if=response>{{ response }}</p>
+
+            <!-- login form -->
+            <form class="ui form loginForm" @submit.prevent="login">
+
+              <div class="field is-horizontal">
+                <div class="field-body">
+                  <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                      <input class="input" type="email" placeholder="Email" v-model="data.email">
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-envelope"></i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field is-horizontal">
+                <div class="field-body">
+                  <div class="field">
+                    <p class="control has-icons-left has-icons-right">
+                      <input class="input" type="password" placeholder="Password" v-model="data.password" v-if="data">
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-lock"></i>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field is-horizontal">
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <label class="checkbox">
+                        <input type="checkbox" v-model="data.rememberMe" v-if="data"> Remember Me
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p class="control login">
+                <button class="button is-success is-outlined is-fullwidth">Login</button>
+              </p>
+
+            </form>
           </div>
         </div>
       </div>
+    </section>
   </div>
 </template>
 
-<script type="application/ecmascript">
-  import * as types from '../store/types'
+<script>
+  import * as types from '../stores/types'
+
   export default {
     name: 'Login',
-    data () {
+    data() {
       return {
-        section: 'Login',
-        loading: '',
-        email: '',
-        password: '',
+        data: {
+          email: '',
+          password: '',
+          rememberMe: false,
+        },
         response: ''
       }
     },
@@ -44,55 +81,22 @@
     },
     methods: {
       login(){
-        const {email, password} = this
-
-        this.axios.post('/auth/signIn', { email, password, rememberMe: false }).then(response => {
+        console.log(this.data)
+        this.http.post('/auth/signIn', this.data).then(response => {
           this.$store.commit(types.LOGIN, response.data.token)
           let redirect = decodeURIComponent(this.$route.query.redirect || '/')
           this.$router.push({
             path: redirect
           })
         })
-        .catch(error => {
-          this.response = error.message
-          let redirect = decodeURIComponent(this.$route.query.redirect || '/')
-          this.$router.push({
-            path: redirect
+          .catch(error => {
+            this.response = error.message
+            let redirect = decodeURIComponent(this.$route.query.redirect || '/')
+            this.$router.push({
+              path: redirect
+            })
           })
-        })
       }
     }
   }
 </script>
-
-<style>
-html, body, .container-table {
-  height: 100%;
-  background-color: #282B30 !important;
-}
-.container-table {
-    display: table;
-    color: white;
-}
-.vertical-center-row {
-    display: table-cell;
-    vertical-align: middle;
-}
-.vertical-20p {
-  padding-top: 20%;
-}
-.vertical-10p {
-  padding-top: 10%;
-}
-.logo {
-  width: 15em;
-  padding: 3em;
-}
-.loginForm .input-group {
-  padding-bottom: 1em;
-  height: 4em;
-}
-.input-group input {
-  height: 4em;
-}
-</style>

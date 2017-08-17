@@ -1,43 +1,24 @@
-// Import System requirements
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import axios from './http'
-
-import { sync } from 'vuex-router-sync'
-import VueProgressBar from 'vue-progressbar'
+import App from './components/App'
 import router from './router'
-import store from './store/store'
+import store from './stores'
+import http from './http'
 
-// Import Views - Top level
-import App from './components/App.vue'
-
-import 'va/lib/css'
-import 'va/lib/script'
+// css
+import 'bulma/css/bulma.css'
+import 'font-awesome/css/font-awesome.css'
 
 Vue.config.productionTip = false
 
-Vue.prototype.axios = axios
-
-const options = {
-  color: '#bffaf3',
-  failedColor: '#874b4b',
-  thickness: '5px',
-  transition: {
-    speed: '0.2s',
-    opacity: '0.6s',
-    termination: 300
-  },
-  autoRevert: true,
-  location: 'top',
-  inverse: false
-}
-
-Vue.use(VueProgressBar, options)
+Vue.prototype.http = http
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  axios,
   router,
+  http,
   store,
   template: '<App/>',
   components: { App }
