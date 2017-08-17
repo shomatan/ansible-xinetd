@@ -1,17 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import stores from '../stores'
+import * as types from '../stores/types'
 
 import Hello from '../components/Hello'
+import LoginView from '../components/Login.vue'
 import NotFoundView from '../components/404.vue'
 
 Vue.use(Router)
 
 const routes = [
   {
+    path: '/login',
+    component: LoginView
+  },
+  {
     path: '/',
     name: 'Hello',
-    component: Hello
+    component: Hello,
+    meta: {
+      requireAuth: true,
+    }
   }, {
     // not found handler
     path: '*',
