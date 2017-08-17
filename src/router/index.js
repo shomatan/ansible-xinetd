@@ -21,7 +21,6 @@ const routes = [
     component: Hello,
     meta: {
       requireAuth: true,
-    }
     },
     children: [
       {
