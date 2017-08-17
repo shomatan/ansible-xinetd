@@ -15,7 +15,7 @@
                 <div class="field-body">
                   <div class="field">
                     <p class="control has-icons-left has-icons-right">
-                      <input class="input" type="email" placeholder="Email">
+                      <input class="input" type="email" placeholder="Email" v-model="data.email">
                       <span class="icon is-small is-left">
                         <i class="fa fa-envelope"></i>
                       </span>
@@ -81,6 +81,7 @@
     },
     methods: {
       login(){
+        console.log(this.data)
         this.http.post('/auth/signIn', this.data).then(response => {
           this.$store.commit(types.LOGIN, response.data.token)
           let redirect = decodeURIComponent(this.$route.query.redirect || '/')
