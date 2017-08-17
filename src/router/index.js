@@ -7,6 +7,7 @@ import Hello from '../components/Hello'
 import LoginView from '../components/Login.vue'
 import NotFoundView from '../components/404.vue'
 
+import PostListView from '../components/views/posts/List.vue'
 Vue.use(Router)
 
 const routes = [
@@ -21,6 +22,14 @@ const routes = [
     meta: {
       requireAuth: true,
     }
+    },
+    children: [
+      {
+        path: '/posts',
+        component: PostListView,
+        meta: { description: 'Show post list' }
+      }
+    ]
   }, {
     // not found handler
     path: '*',
