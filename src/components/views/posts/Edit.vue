@@ -22,12 +22,12 @@
         <div class="field has-text-left">
           <label class="label">Post date</label>
           <div class="control">
-            <el-date-picker id="postedAt-date" name="postedAt" type="datetime" placeholder="Select date and time" v-model="post.postedAt"></el-date-picker>
+            <date-picker id="postedAt-date" name="postedAt" type="datetime" placeholder="Select date and time" v-model="post.postedAt"></date-picker>
           </div>
         </div>
 
         <p class="control login">
-          <button class="button is-success is-outlined" v-on:click="createPost()">Create</button>
+          <button class="button is-success is-outlined" v-on:click="updatePost()">Update</button>
         </p>
 
       </div>
@@ -79,27 +79,32 @@
 </template>
 
 <script>
+  import { DatePicker } from 'element-ui'
+
   export default {
     name: 'CreatePost',
+    components: { DatePicker },
     data () {
       return {
         post: {
           id: 0,
-          title: null,
-          content: null,
+          title: '',
+          content: '',
           categories: [],
           tags: [],
           createdAt: new Date(),
           updatedAt: new Date(),
           postedAt: new Date(),
         },
-        categories: null,
-        tags: null,
+        postedAt: new Date(),
+        categories: [],
+        tags: [],
         error: null
       }
     },
     methods: {
       init () {
+        // Get category
         this.http.get('/categories').then( response => {
           if (response.status !== 200) {
             this.error = response.statusText
@@ -107,9 +112,10 @@
           }
           this.categories = response.data
         })
-          .catch(error => {
-            this.error = error.toString()
-          })
+        .catch(error => {
+          this.error = error.toString()
+        })
+        // Get tag
         this.http.get('/tags').then( response => {
           if (response.status !== 200) {
             this.error = response.statusText
@@ -117,27 +123,34 @@
           }
           this.tags = response.data
         })
-          .catch(error => {
-            this.error = error.toString()
-          })
+        .catch(error => {
+          this.error = error.toString()
+        })
+        // Get post
+        this.http.get('/posts/' + this.$route.params.id).then( response => {
+          if (response.status !== 200) {
+            this.error = response.statusText
+            return
+          }
+          this.post = response.data
+        })
+        .catch(error => {
+          this.error = error.toString()
+        })
       },
-      createPost() {
-        console.log(this.post)
+      updatePost() {
         this.http.post('/posts', this.post).then(response => {
           if (response.status !== 200) {
             this.error = response.statusText
             return
           }
-          this.$router.push({
-            path: '/posts'
-          })
         })
-          .catch(error => {
-            this.error = error.response.statusText
-          })
+        .catch(error => {
+          this.error = error.response.statusText
+        })
       }
     },
-    mounted () {
+    created () {
       this.init()
     }
   }

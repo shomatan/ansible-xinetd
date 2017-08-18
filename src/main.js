@@ -12,7 +12,6 @@ import 'font-awesome/css/font-awesome.css'
 import 'element-ui/lib/theme-default'
 
 // element-ui
-import { DatePicker } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 
@@ -20,7 +19,6 @@ Vue.config.productionTip = false
 
 Vue.prototype.http = http
 
-Vue.use(DatePicker)
 locale.use(lang)
 
 /* eslint-disable no-new */
