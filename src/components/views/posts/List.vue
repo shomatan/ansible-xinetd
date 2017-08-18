@@ -1,78 +1,59 @@
 <template>
+  <div>
 
-  <section class="content">
-    <div class="row">
-      <h1 class="col-md-4">Posts</h1>
-      <button class="col-md-2 btn btn-primary" type="button" v-on:click="createPost()">New Post</button>
-      <div class="col-md-5 col-md-offset-1">
-        <!-- search form (Optional) -->
-        <form v-on:submit.prevent class="sidebar-form">
-          <div class="input-group">
-            <input type="text"
-                   name="search"
-                   id="search"
-                   class="search form-control"
-                   data-toggle="hideseek" p
-                   laceholder="Search Menus"
-                   data-list=".sidebar-menu">
-            <span class="input-group-btn">
-            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+    <div class="container is-fluid">
+      <div class="columns">
+        <div class="column is-6">
+        </div>
+        <div class="column is-2">
+          <button class="button is-primary is-outlined is-fullwidth" type="button" v-on:click="createPost()">New Post</button>
+        </div>
+        <div class="column is-3">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input" type="text" placeholder="Search">
+            <span class="icon is-small is-left">
               <i class="fa fa-search"></i>
-            </button>
-          </span>
-          </div>
-        </form>
-        <!-- /.search form -->
+            </span>
+          </p>
+        </div>
+        <div class="column is-1">
+          <button class="button is-outlined is-fullwidth" type="button"><i class="fa fa-search"></i></button>
+        </div>
       </div>
-
     </div>
-    <div class="row center-block">
-      <div class="col-md-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">Data Table With Full Features</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div id="example1_length" class="dataTables_length">
 
-                  </div>
-                </div>
-              </div>
-
+    <section class="content">
+      <div class="row center-block">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-body">
               <div v-if="error">
                 Found an error
               </div>
               <div v-else>
-                <div class="row">
-                  <div class="col-sm-12 table-responsive">
-                    <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
-                      <thead>
-                      <tr role="row">
-                        <th aria-label="ID engine: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">ID</th>
-                        <th aria-label="Title: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Title</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr class="even" role="row" v-if="response" v-for="p in response" v-on:click="editPost(p)" >
-                        <td class="sorting_1">{{ p.id }}</td>
-                        <td>{{ p.title }}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div><!-- /.box-body -->
+
+                <table class="table">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr v-if="response" v-for="p in response" v-on:click="editPost(p)" >
+                    <td>{{ p.id }}</td>
+                    <td>{{ p.title }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+
+              </div><!-- /.box-body -->
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
+    </section>
+  </div>
 </template>
 
 <script>
