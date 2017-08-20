@@ -22,7 +22,7 @@
         <div class="field has-text-left">
           <label class="label">Post date</label>
           <div class="control">
-            <date-picker id="postedAt-date" name="postedAt" type="datetime" placeholder="Select date and time" v-model="post.postedAt"></date-picker>
+            <el-date-picker id="postedAt-date" name="postedAt" type="datetime" placeholder="Select date and time" v-model="post.postedAt"></el-date-picker>
           </div>
         </div>
 
@@ -79,11 +79,9 @@
 </template>
 
 <script>
-  import { DatePicker } from 'element-ui'
 
   export default {
     name: 'CreatePost',
-    components: { DatePicker },
     data () {
       return {
         post: {
