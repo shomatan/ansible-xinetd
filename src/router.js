@@ -9,6 +9,7 @@ import NotFoundView from './components/404.vue'
 
 import PostListView from './components/views/posts/List.vue'
 import PostCreateView from './components/views/posts/Create.vue'
+import PostEditView from './components/views/posts/Edit.vue'
 
 Vue.use(Router)
 
@@ -33,6 +34,10 @@ const routes = [
         path: '/posts/create',
         component: PostCreateView,
         meta: { description: 'Create new post' }
+      }, {
+        path: '/posts/:id',
+        component: PostEditView,
+        meta: { description: 'Edit post' }
       }
     ]
   }, {
