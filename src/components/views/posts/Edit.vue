@@ -35,11 +35,19 @@
 
       </div>
 
-      <!-- Categories -->
-      <div class="column is-2">
+      <div class="column">
+
+        <!-- Categories -->
         <div class="box box-info">
           <h4>Category</h4>
-          <table class="table table-bordered table-striped dataTable" data-click-to-select="true">
+
+          <!-- Add category -->
+          <div class="field is-horizontal">
+            <input class="input" type="text" placeholder="Category name" v-model="newCategory">
+            <button class="button is-info is-outlined" @click="addCategory()">+</button>
+          </div>
+
+          <table class="table table-bordered table-striped">
             <thead>
               <tr>
                 <th data-field="cat" data-checkbox="true" data-formatter="stateFormatter"></th>
@@ -48,16 +56,14 @@
             </thead>
             <tbody>
             <tr class="even" role="row" v-if="categories" v-for="p in categories">
-              <td><input type="checkbox" v-bind:value="{ name: p.name }" v-model="post.categories"></td>
+              <td><input type="checkbox" v-bind:value="p" v-model="post.categories"></td>
               <td>{{ p.name }}</td>
             </tr>
             </tbody>
           </table>
         </div>
-      </div>
 
-      <!-- Tags -->
-      <div class="column is-2">
+        <!-- Tags -->
         <div class="box box-info">
           <h4>Tag</h4>
           <table class="table table-bordered table-striped dataTable" data-click-to-select="true">
@@ -69,14 +75,14 @@
             </thead>
             <tbody>
             <tr class="even" role="row" v-if="tags" v-for="p in tags">
-              <td><input type="checkbox" v-bind:value="{ name: p.name }" v-model="post.tags"></td>
+              <td><input type="checkbox" v-bind:value="p" v-model="post.tags"></td>
               <td>{{ p.name }}</td>
             </tr>
             </tbody>
           </table>
         </div>
-      </div>
 
+      </div>
     </div><!-- /.columns is-vcentered -->
   </div>
 </template>
@@ -105,11 +111,23 @@
         postedAt: new Date(),
         categories: [],
         tags: [],
+        newCategory: '',
         error: null
       }
     },
     methods: {
       init () {
+        // Get post
+        this.http.get('/posts/' + this.$route.params.id).then( response => {
+          if (response.status !== 200) {
+            this.error = response.statusText
+            return
+          }
+          this.post = response.data
+        })
+        .catch(error => {
+          this.error = error.toString()
+        })
         // Get category
         this.http.get('/categories').then( response => {
           if (response.status !== 200) {
@@ -132,17 +150,6 @@
         .catch(error => {
           this.error = error.toString()
         })
-        // Get post
-        this.http.get('/posts/' + this.$route.params.id).then( response => {
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-          this.post = response.data
-        })
-        .catch(error => {
-          this.error = error.toString()
-        })
       },
       updatePost() {
         console.log(this.post)
@@ -155,6 +162,29 @@
         .catch(error => {
           this.error = error.response.statusText
         })
+      },
+      addCategory () {
+        let name = this.newCategory && this.newCategory.trim()
+
+        if (!name) return
+
+        let categoryFilter = (function (item, index) {
+          if (item.name == name) return true
+        })
+
+        let exists = this.categories.filter(categoryFilter)
+        if (exists.length > 0) {
+          if (this.post.categories.filter(categoryFilter).length == 0) {
+            this.post.categories.splice(0, 0, exists.shift())
+          }
+          console.log(this.post.categories)
+        } else {
+          let c = {id: 0, name: name}
+          this.categories.splice(0, 0, c)
+          this.post.categories.splice(0, 0, c)
+        }
+
+        this.newCategory = ''
       }
     },
     created () {
