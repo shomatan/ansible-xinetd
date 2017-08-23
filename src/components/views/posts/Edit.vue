@@ -19,30 +19,8 @@
           </div>
         </div>
 
-        <div class="field has-text-left">
-          <label class="label">Custom fields</label>
-          <table class="table is-bordered">
-            <thead>
-              <tr>
-                <th data-field="key">Key</th>
-                <th data-field="value">Value</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="post.customFields" v-for="r in post.customFields">
-                <td><input class="input" type="text" placeholder="Key" v-model="r.key"></td>
-                <td><input class="input" type="text" placeholder="Value" v-model="r.value"></td>
-                <td><button class="button is-danger is-outlined" @click="removeCustomField(r)">x</button></td>
-              </tr>
-              <tr>
-                <td><input class="input" type="text" placeholder="Key" v-model="newCustomField.key"></td>
-                <td><input class="input" type="text" placeholder="Value" v-model="newCustomField.value"></td>
-                <td><button class="button is-info is-outlined" @click="addCustomField">+</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <!-- Custom field -->
+        <custom-field :post-id="post.id" :custom-fields.sync="post.customFields"/>
 
         <div class="field has-text-left">
           <label class="label">Post date</label>
@@ -104,9 +82,13 @@
 </template>
 
 <script>
+  import CustomField from './CustomField.vue'
 
   export default {
     name: 'CreatePost',
+    components: {
+      CustomField
+    },
     data () {
       return {
         post: {
@@ -123,10 +105,6 @@
         postedAt: new Date(),
         categories: [],
         tags: [],
-        newCustomField: {
-          key: null,
-          value: null
-        },
         error: null
       }
     },
@@ -177,23 +155,6 @@
         .catch(error => {
           this.error = error.response.statusText
         })
-      },
-      addCustomField: function () {
-        var key = this.newCustomField.key && this.newCustomField.key.trim()
-        var value = this.newCustomField.value && this.newCustomField.value.trim()
-        if (!key || !value) {
-          return
-        }
-        this.post.customFields.push({
-          postId: this.post.id,
-          key: key,
-          value: value,
-        })
-        this.newCustomField.key = null
-        this.newCustomField.value = null
-      },
-      removeCustomField: function (cf) {
-        this.post.customFields.splice(this.post.customFields.indexOf(cf), 1)
       }
     },
     created () {

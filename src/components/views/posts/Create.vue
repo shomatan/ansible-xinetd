@@ -19,6 +19,9 @@
           </div>
         </div>
 
+        <!-- Custom field -->
+        <custom-field :post-id="post.id" :custom-fields.sync="post.customFields"/>
+
         <div class="field has-text-left">
           <label class="label">Post date</label>
           <div class="control">
@@ -79,8 +82,13 @@
 </template>
 
 <script>
+  import CustomField from './CustomField.vue'
+
   export default {
     name: 'CreatePost',
+    components: {
+      CustomField
+    },
     data () {
       return {
         post: {
@@ -89,6 +97,7 @@
           content: null,
           categories: [],
           tags: [],
+          customFields: [],
           createdAt: new Date(),
           updatedAt: new Date(),
           postedAt: new Date(),
@@ -107,9 +116,9 @@
           }
           this.categories = response.data
         })
-          .catch(error => {
-            this.error = error.toString()
-          })
+        .catch(error => {
+          this.error = error.toString()
+        })
         this.http.get('/tags').then( response => {
           if (response.status !== 200) {
             this.error = response.statusText
@@ -117,9 +126,9 @@
           }
           this.tags = response.data
         })
-          .catch(error => {
-            this.error = error.toString()
-          })
+        .catch(error => {
+          this.error = error.toString()
+        })
       },
       createPost() {
         console.log(this.post)
@@ -132,9 +141,9 @@
             path: '/posts'
           })
         })
-          .catch(error => {
-            this.error = error.response.statusText
-          })
+        .catch(error => {
+          this.error = error.response.statusText
+        })
       }
     },
     mounted () {
