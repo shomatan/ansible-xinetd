@@ -44,7 +44,7 @@
           <!-- Add category -->
           <div class="field is-horizontal">
             <input class="input" type="text" placeholder="Category name" v-model="newCategory">
-            <button class="button is-info is-outlined" @click="addCategory()">+</button>
+            <button class="button is-info is-outlined" @click="addItem(newCategory, categories, post.categories)">+</button>
           </div>
 
           <table class="table table-bordered table-striped">
@@ -70,7 +70,7 @@
           <!-- Add tag -->
           <div class="field is-horizontal">
             <input class="input" type="text" placeholder="Tag name" v-model="newTag">
-            <button class="button is-info is-outlined" @click="addTag()">+</button>
+            <button class="button is-info is-outlined" @click="addItem(newTag, tags, post.tags)">+</button>
           </div>
 
           <table class="table table-bordered table-striped dataTable" data-click-to-select="true">
@@ -140,47 +140,26 @@
       postAction() {
         this.$emit('post-action')
       },
-      addCategory () {
-        let name = this.newCategory && this.newCategory.trim()
+      addItem (inputName, items, hasItems) {
+        let name = inputName && inputName.trim()
 
         if (!name) return
 
-        let categoryFilter = (function (item, index) {
+        let itemFilter = (function (item, index) {
           if (item.name == name) return true
         })
 
-        let exists = this.categories.filter(categoryFilter)
+        let exists = items.filter(itemFilter)
         if (exists.length > 0) {
-          if (this.post.categories.filter(categoryFilter).length == 0) {
-            this.post.categories.splice(0, 0, exists.shift())
+          if (hasItems.filter(itemFilter).length == 0) {
+            hasItems.splice(0, 0, exists.shift())
           }
-          console.log(this.post.categories)
         } else {
           let c = {id: 0, name: name}
-          this.categories.splice(0, 0, c)
-          this.post.categories.splice(0, 0, c)
+          items.splice(0, 0, c)
+          hasItems.splice(0, 0, c)
         }
         this.newCategory = ''
-      },
-      addTag () {
-        let name = this.newTag && this.newTag.trim()
-
-        if (!name) return
-
-        let tagFilter = (function (item, index) {
-          if (item.name == name) return true
-        })
-
-        let exists = this.tags.filter(tagFilter)
-        if (exists.length > 0) {
-          if (this.post.tags.filter(tagFilter).length == 0) {
-            this.post.tags.splice(0, 0, exists.shift())
-          }
-        } else {
-          let c = {id: 0, name: name}
-          this.tags.splice(0, 0, c)
-          this.post.tags.splice(0, 0, c)
-        }
         this.newTag = ''
       }
     },
