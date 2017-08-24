@@ -66,6 +66,13 @@
         <!-- Tags -->
         <div class="box box-info">
           <h4>Tag</h4>
+
+          <!-- Add tag -->
+          <div class="field is-horizontal">
+            <input class="input" type="text" placeholder="Tag name" v-model="newTag">
+            <button class="button is-info is-outlined" @click="addTag()">+</button>
+          </div>
+
           <table class="table table-bordered table-striped dataTable" data-click-to-select="true">
             <thead>
             <tr>
@@ -112,6 +119,7 @@
         categories: [],
         tags: [],
         newCategory: '',
+        newTag: '',
         error: null
       }
     },
@@ -183,8 +191,28 @@
           this.categories.splice(0, 0, c)
           this.post.categories.splice(0, 0, c)
         }
-
         this.newCategory = ''
+      },
+      addTag () {
+        let name = this.newTag && this.newTag.trim()
+
+        if (!name) return
+
+        let tagFilter = (function (item, index) {
+          if (item.name == name) return true
+        })
+
+        let exists = this.tags.filter(tagFilter)
+        if (exists.length > 0) {
+          if (this.post.tags.filter(tagFilter).length == 0) {
+            this.post.tags.splice(0, 0, exists.shift())
+          }
+        } else {
+          let c = {id: 0, name: name}
+          this.tags.splice(0, 0, c)
+          this.post.tags.splice(0, 0, c)
+        }
+        this.newTag = ''
       }
     },
     created () {
