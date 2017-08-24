@@ -30,7 +30,7 @@
         </div>
 
         <p class="control login">
-          <button class="button is-success is-outlined" v-on:click="updatePost()">{{ buttonName }}</button>
+          <button class="button is-success is-outlined" v-on:click="postAction()">{{ buttonName }}</button>
         </p>
 
       </div>
@@ -99,24 +99,12 @@
 
   export default {
     name: 'CreatePost',
-    props: ['buttonName'],
+    props: ['buttonName', 'post'],
     components: {
       CustomField
     },
     data () {
       return {
-        post: {
-          id: 0,
-          title: '',
-          content: '',
-          categories: [],
-          tags: [],
-          customFields: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          postedAt: new Date(),
-        },
-        postedAt: new Date(),
         categories: [],
         tags: [],
         newCategory: '',
@@ -126,17 +114,6 @@
     },
     methods: {
       init () {
-        // Get post
-        this.http.get('/posts/' + this.$route.params.id).then( response => {
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-          this.post = response.data
-        })
-        .catch(error => {
-          this.error = error.toString()
-        })
         // Get category
         this.http.get('/categories').then( response => {
           if (response.status !== 200) {
@@ -160,17 +137,8 @@
           this.error = error.toString()
         })
       },
-      updatePost() {
-        console.log(this.post)
-        this.http.post('/posts', this.post).then(response => {
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-        })
-        .catch(error => {
-          this.error = error.response.statusText
-        })
+      postAction() {
+        this.$emit('post-action')
       },
       addCategory () {
         let name = this.newCategory && this.newCategory.trim()
