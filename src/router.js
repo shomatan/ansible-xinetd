@@ -4,6 +4,7 @@ import stores from './stores'
 import * as types from './stores/types'
 
 import Hello from './components/Hello.vue'
+import DashBoardView from './components/views/Dashboard.vue'
 import LoginView from './components/Login.vue'
 import NotFoundView from './components/404.vue'
 
@@ -27,6 +28,10 @@ const routes = [
     },
     children: [
       {
+        path: '/',
+        component: DashBoardView,
+        meta: { description: 'Show dashboard' }
+      },{
         path: '/posts',
         component: PostListView,
         meta: { description: 'Show post list' }

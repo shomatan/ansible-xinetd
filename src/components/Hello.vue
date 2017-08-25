@@ -2,7 +2,7 @@
   <div class="container">
     <div class="columns">
 
-      <div class="column is-2 aside is-fullheight is-hidden-mobile">
+      <aside class="column is-2 aside is-fullheight is-hidden-mobile">
         <p class="menu-label">
           General
         </p>
@@ -18,7 +18,7 @@
           <li><a>Category</a></li>
           <li><a>Tag</a></li>
         </ul>
-      </div>
+      </aside>
 
       <!-- Content Wrapper. Contains page content -->
       <div class="column is-10">
