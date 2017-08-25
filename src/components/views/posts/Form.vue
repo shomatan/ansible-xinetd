@@ -1,5 +1,13 @@
 <template>
   <div class="container is-fluid">
+
+    <article class="message is-success is-small" v-if="isSuccess">
+      <div class="message-header">
+        <p>Success!</p>
+        <button class="delete" aria-label="delete" @click="isSuccess = false"></button>
+      </div>
+    </article>
+
     <div class="columns is-vcentered">
 
       <!-- Edit form -->
@@ -109,6 +117,7 @@
         tags: [],
         newCategory: '',
         newTag: '',
+        isSuccess: false,
         error: null
       }
     },
@@ -138,6 +147,10 @@
         })
       },
       postAction() {
+        this.isSuccess = true
+        setTimeout( function () {
+          this.isSuccess = false
+        }, 2000);
         this.$emit('post-action')
       },
       addItem (inputName, items, hasItems) {
