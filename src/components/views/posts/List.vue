@@ -40,7 +40,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-if="response" v-for="p in response" v-on:click="editPost(p)" >
+                  <tr v-if="response" v-for="p in response.posts" v-on:click="editPost(p)" >
                     <td>{{ p.id }}</td>
                     <td>{{ p.title }}</td>
                   </tr>
@@ -75,11 +75,11 @@
           }
           this.response = response.data
         })
-          .catch(error => {
-            // Request failed.
-            console.log('error', error.response)
-            this.error = error.response.statusText
-          })
+        .catch(error => {
+          // Request failed.
+          console.log('error', error.response)
+          this.error = error.response.statusText
+        })
         // this.$Progress.finish()
       },
       editPost(post) {
