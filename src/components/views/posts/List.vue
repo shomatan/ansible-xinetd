@@ -40,7 +40,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr v-if="response" v-for="p in response.posts" v-on:click="editPost(p)" >
+                  <tr v-for="p in posts" @click="editPost(p)" >
                     <td>{{ p.id }}</td>
                     <td>{{ p.title }}</td>
                   </tr>
@@ -61,7 +61,7 @@
     name: 'Tables',
     data () {
       return {
-        response: null,
+        posts: [],
         error: null
       }
     },
@@ -73,7 +73,7 @@
             this.error = response.statusText
             return
           }
-          this.response = response.data
+          this.posts = response.data.posts
         })
         .catch(error => {
           // Request failed.
