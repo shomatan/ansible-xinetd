@@ -24,7 +24,7 @@
             this.error = response.statusText
             return
           }
-          this.post = response.data
+          this.post = response.data.post
         })
         .catch(error => {
           this.error = error.toString()

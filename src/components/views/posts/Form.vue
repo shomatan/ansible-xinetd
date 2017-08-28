@@ -129,7 +129,7 @@
             this.error = response.statusText
             return
           }
-          this.categories = response.data
+          this.categories = response.data.categories
         })
         .catch(error => {
           this.error = error.toString()
@@ -140,7 +140,7 @@
             this.error = response.statusText
             return
           }
-          this.tags = response.data
+          this.tags = response.data.tags
         })
         .catch(error => {
           this.error = error.toString()
