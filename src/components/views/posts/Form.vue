@@ -8,7 +8,7 @@
       </div>
     </article>
 
-    <div class="columns is-vcentered">
+    <div class="columns">
 
       <!-- Edit form -->
       <div class="column is-8">
@@ -55,20 +55,23 @@
             <button class="button is-info is-outlined" @click="addItem(newCategory, categories, post.categories)">+</button>
           </div>
 
-          <table class="table table-bordered table-striped">
-            <thead>
+          <div class="scrollable">
+            <table class="table table-bordered table-striped">
+              <thead>
               <tr>
                 <th data-field="cat" data-checkbox="true" data-formatter="stateFormatter"></th>
                 <th data-field="name">Name</th>
               </tr>
-            </thead>
-            <tbody>
-            <tr class="even" role="row" v-if="categories" v-for="p in categories">
-              <td><input type="checkbox" v-bind:value="p" v-model="post.categories"></td>
-              <td>{{ p.name }}</td>
-            </tr>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+              <tr class="even" role="row" v-if="categories" v-for="p in categories">
+                <td><input type="checkbox" v-bind:value="p" v-model="post.categories"></td>
+                <td>{{ p.name }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
         <!-- Tags -->
@@ -81,20 +84,23 @@
             <button class="button is-info is-outlined" @click="addItem(newTag, tags, post.tags)">+</button>
           </div>
 
-          <table class="table table-bordered table-striped dataTable" data-click-to-select="true">
-            <thead>
-            <tr>
-              <th data-field="cat" data-checkbox="true" data-formatter="stateFormatter"></th>
-              <th data-field="name">Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="even" role="row" v-if="tags" v-for="p in tags">
-              <td><input type="checkbox" v-bind:value="p" v-model="post.tags"></td>
-              <td>{{ p.name }}</td>
-            </tr>
-            </tbody>
-          </table>
+          <div class="scrollable">
+            <table class="table table-bordered table-striped dataTable" data-click-to-select="true">
+              <thead>
+              <tr>
+                <th data-field="cat" data-checkbox="true" data-formatter="stateFormatter"></th>
+                <th data-field="name">Name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="even" role="row" v-if="tags" v-for="p in tags">
+                <td><input type="checkbox" v-bind:value="p" v-model="post.tags"></td>
+                <td>{{ p.name }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
       </div>
@@ -181,3 +187,10 @@
     }
   }
 </script>
+
+<style scoped>
+  div.scrollable {
+    height: 200px;
+    overflow-y: scroll;
+  }
+</style>
