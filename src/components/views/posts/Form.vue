@@ -174,11 +174,21 @@
         })
 
         let exists = items.filter(itemFilter)
+
         if (exists.length > 0) {
+          // Categories has specified name
           if (hasItems.filter(itemFilter).length == 0) {
+            // Add new item to post
             hasItems.splice(0, 0, exists.shift())
+          } else {
+            // Post already has item. Move to top
+            hasItems.splice(hasItems.findIndex(itemFilter), 1)
+            hasItems.splice(0, 0, exists[0])
+            items.splice(items.findIndex(itemFilter), 1)
+            items.splice(0, 0, exists[0])
           }
         } else {
+          // Add new item
           let c = {id: 0, name: name}
           items.splice(0, 0, c)
           hasItems.splice(0, 0, c)
