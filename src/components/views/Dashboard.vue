@@ -29,8 +29,7 @@
           this.error = response.statusText
           return
         }
-        console.log(response.data)
-        this.total = response.data.total
+        this.total = response.headers['x-total-count']
       })
       .catch(error => {
         this.error = error.response.statusText
