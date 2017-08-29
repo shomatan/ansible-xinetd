@@ -28,7 +28,12 @@
         </div>
 
         <!-- Custom field -->
-        <custom-field :post-id="post.id" :custom-fields.sync="post.customFields"/>
+        <div class="field has-text-left border">
+          <label class="label">Custom fields</label>
+          <div class="scrollable custom-field">
+            <custom-field :post-id="post.id" :custom-fields.sync="post.customFields"/>
+          </div>
+        </div>
 
         <div class="field has-text-left">
           <label class="label">Post date</label>
@@ -192,5 +197,8 @@
   div.scrollable {
     height: 200px;
     overflow-y: scroll;
+  }
+  div.scrollable.custom-field {
+    height: 254px;
   }
 </style>

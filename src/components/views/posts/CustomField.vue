@@ -1,6 +1,5 @@
 <template>
   <div class="field has-text-left">
-    <label class="label">Custom fields</label>
     <table class="table is-bordered">
       <thead>
       <tr>
