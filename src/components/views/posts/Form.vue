@@ -118,14 +118,12 @@
 
   export default {
     name: 'CreatePost',
-    props: ['buttonName', 'post'],
+    props: ['buttonName', 'post', 'categories', 'tags'],
     components: {
       CustomField
     },
     data () {
       return {
-        categories: [],
-        tags: [],
         newCategory: '',
         newTag: '',
         isSuccess: false,
@@ -133,30 +131,6 @@
       }
     },
     methods: {
-      init () {
-        // Get category
-        this.http.get('/categories').then( response => {
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-          this.categories = response.data.categories
-        })
-        .catch(error => {
-          this.error = error.toString()
-        })
-        // Get tag
-        this.http.get('/tags').then( response => {
-          if (response.status !== 200) {
-            this.error = response.statusText
-            return
-          }
-          this.tags = response.data.tags
-        })
-        .catch(error => {
-          this.error = error.toString()
-        })
-      },
       postAction() {
         this.isSuccess = true
         setTimeout( function () {
@@ -196,9 +170,6 @@
         this.newCategory = ''
         this.newTag = ''
       }
-    },
-    created () {
-      this.init()
     }
   }
 </script>

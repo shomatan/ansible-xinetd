@@ -1,6 +1,12 @@
 <template>
   <div>
-    <post-form button-name="Create" :post.sync="post" v-on:post-action="createPost"></post-form>
+    <post-form
+      button-name="Create"
+      :post.sync="post"
+      :categories.sync="categories"
+      :tags.sync="tags"
+      @post-action="createPost">
+    </post-form>
   </div>
 </template>
 
@@ -25,10 +31,36 @@
           updatedAt: new Date(),
           postedAt: new Date(),
         },
+        categories: [],
+        tags: [],
         error: null
       }
     },
     methods: {
+      init () {
+        // Get category
+        this.http.get('/categories').then( response => {
+          if (response.status !== 200) {
+            this.error = response.statusText
+            return
+          }
+          this.categories = response.data.categories
+        })
+        .catch(error => {
+          this.error = error.toString()
+        })
+        // Get tag
+        this.http.get('/tags').then( response => {
+          if (response.status !== 200) {
+            this.error = response.statusText
+            return
+          }
+          this.tags = response.data.tags
+        })
+        .catch(error => {
+          this.error = error.toString()
+        })
+      },
       createPost() {
         console.log(this.post)
         this.http.post('/posts', this.post).then(response => {
@@ -44,6 +76,9 @@
           this.error = error.response.statusText
         })
       }
+    },
+    created () {
+      this.init()
     }
   }
 </script>
