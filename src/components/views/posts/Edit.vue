@@ -33,7 +33,7 @@
             this.error = response.statusText
             return
           }
-          this.categories = response.data.categories
+          this.categories = response.data
         })
         .catch(error => {
           this.error = error.toString()
