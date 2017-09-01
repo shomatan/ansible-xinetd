@@ -45,7 +45,7 @@
             this.error = response.statusText
             return
           }
-          this.tags = response.data.tags
+          this.tags = response.data
         })
         .catch(error => {
           this.error = error.toString()
